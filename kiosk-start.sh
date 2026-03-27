@@ -2,9 +2,9 @@
 set -euo pipefail
 sleep 5
 
-CHROMIUM_BIN="$(command -v chromium-browser || true)"
+CHROMIUM_BIN="$(command -v chromium || true)"
 if [[ -z "$CHROMIUM_BIN" ]]; then
-  CHROMIUM_BIN="$(command -v chromium || true)"
+  CHROMIUM_BIN="$(command -v chromium-browser || true)"
 fi
 
 if [[ -z "$CHROMIUM_BIN" ]]; then
