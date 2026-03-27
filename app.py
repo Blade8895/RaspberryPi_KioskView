@@ -72,7 +72,14 @@ def plansetup():
         try:
             views = json.loads(request.form.get("views_json", "[]"))
             if isinstance(views, list) and views:
-                s["views"] = views
+                normalized = []
+                for view in views:
+                    if not isinstance(view, dict):
+                        continue
+                    view["theme_override"] = bool(view.get("theme_override", False))
+                    normalized.append(view)
+                if normalized:
+                    s["views"] = normalized
         except Exception:
             logger.warning("views_json ungültig")
 

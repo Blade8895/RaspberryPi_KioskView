@@ -6,7 +6,21 @@
   "show_grid": true,
   "title": "Planungsanzeige",
   "views": [
-    {"title": "Woche", "sheet": "Woche", "range": "A1:G12", "duration_sec": 20, "active": true},
-    {"title": "Urlaub", "sheet": "Urlaub", "range": "A1:G20", "duration_sec": 20, "active": true}
+    {
+      "title": "Woche",
+      "sheet": "Woche",
+      "range": "A1:G12",
+      "duration_sec": 20,
+      "active": true,
+      "theme_override": false
+    },
+    {
+      "title": "Urlaub",
+      "sheet": "Urlaub",
+      "range": "A1:G20",
+      "duration_sec": 20,
+      "active": true,
+      "theme_override": false
+    }
   ]
 }

@@ -65,6 +65,9 @@ class UpdaterService:
                         "sheet": d["sheet"],
                         "range": d["range"],
                         "rows": d["rows"],
+                        "cells": d.get("cells", []),
+                        "layout": d.get("layout", {}),
+                        "theme_override": bool(v.get("theme_override", False)),
                     })
 
                 self.latest_payload = {

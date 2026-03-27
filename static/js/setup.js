@@ -34,11 +34,12 @@ function renderViews(){
     card.appendChild(mkInput('Zellbereich (A1:G12)', v.range, val=>v.range=val));
     card.appendChild(mkInput('Dauer (Sekunden)', v.duration_sec ?? 15, val=>v.duration_sec=Number(val||15), 'number'));
     card.appendChild(mkCheckbox('Aktiv', v.active !== false, val=>v.active=val));
+    card.appendChild(mkCheckbox('Corporate-Theme überlagern', v.theme_override === true, val=>v.theme_override=val));
     viewsContainer.appendChild(card);
   });
 }
 
-addViewBtn.addEventListener('click', ()=>{ views.push({title:'Neue View',sheet:'Sheet1',range:'A1:G12',duration_sec:15,active:true}); renderViews(); });
+addViewBtn.addEventListener('click', ()=>{ views.push({title:'Neue View',sheet:'Sheet1',range:'A1:G12',duration_sec:15,active:true,theme_override:false}); renderViews(); });
 setupForm.addEventListener('submit', ()=>{ viewsInput.value = JSON.stringify(views); });
 
 reloadFilesBtn.addEventListener('click', async ()=>{

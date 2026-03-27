@@ -11,8 +11,8 @@ DEFAULT_SETTINGS = {
     "show_grid": True,
     "title": "Planungsanzeige",
     "views": [
-        {"title": "Woche", "sheet": "Woche", "range": "A1:G12", "duration_sec": 20, "active": True},
-        {"title": "Urlaub", "sheet": "Urlaub", "range": "A1:G20", "duration_sec": 20, "active": True},
+        {"title": "Woche", "sheet": "Woche", "range": "A1:G12", "duration_sec": 20, "active": True, "theme_override": False},
+        {"title": "Urlaub", "sheet": "Urlaub", "range": "A1:G20", "duration_sec": 20, "active": True, "theme_override": False},
     ],
 }
 
