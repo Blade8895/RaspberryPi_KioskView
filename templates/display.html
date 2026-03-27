@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>KioskView</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/display.css') }}">
+</head>
+<body>
+  <div class="header">
+    <div class="title" id="mainTitle">Planungsanzeige</div>
+    <div class="meta"><span id="viewTitle">-</span><span>•</span><span>Update: <span id="updatedAt">-</span></span></div>
+  </div>
+  <div class="status" id="statusBar">Lade Daten...</div>
+  <div class="table-wrap"><table id="planTable"></table></div>
+  <script src="{{ url_for('static', filename='js/display.js') }}"></script>
+</body>
+</html>
