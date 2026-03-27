@@ -1,0 +1,15 @@
+[Unit]
+Description=Raspberry Pi KioskView Flask Service
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=pi
+WorkingDirectory=/home/pi/RaspberryPi_KioskView
+ExecStart=/home/pi/RaspberryPi_KioskView/run.sh
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
