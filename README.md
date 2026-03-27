@@ -11,6 +11,12 @@ cd ~/RaspberryPi_KioskView
 ./run.sh
 ```
 
+Optional kannst du beim Setup auch einen Branch auswählen:
+
+```bash
+./setup.sh <REPO_URL> ~/RaspberryPi_KioskView <BRANCH>
+```
+
 - Anzeige: `http://<PI-IP>:5000/`
 - Setup: `http://<PI-IP>:5000/plansetup`
 
