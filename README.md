@@ -29,6 +29,9 @@ sudo systemctl start kioskview.service
 ./kiosk-start.sh
 ```
 
+Hinweis: Die Setup-Skripte erkennen automatisch, ob auf deinem System das Paket
+`chromium-browser` oder `chromium` verfügbar ist.
+
 Für LXDE-Autostart:
 
 `~/.config/lxsession/LXDE-pi/autostart`

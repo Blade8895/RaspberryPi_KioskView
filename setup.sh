@@ -11,7 +11,19 @@ if [[ -z "$REPO_URL" ]]; then
 fi
 
 sudo apt update
-sudo apt install -y git python3 python3-venv python3-pip chromium-browser
+
+CHROMIUM_PACKAGE=""
+if apt-cache show chromium-browser >/dev/null 2>&1; then
+  CHROMIUM_PACKAGE="chromium-browser"
+elif apt-cache show chromium >/dev/null 2>&1; then
+  CHROMIUM_PACKAGE="chromium"
+else
+  echo "Fehler: Weder 'chromium-browser' noch 'chromium' ist als apt-Paket verfügbar."
+  echo "Bitte Chromium manuell installieren und das Setup erneut ausführen."
+  exit 1
+fi
+
+sudo apt install -y git python3 python3-venv python3-pip "$CHROMIUM_PACKAGE"
 
 if [[ -d "$TARGET_DIR/.git" ]]; then
   echo "Repository bereits vorhanden -> git pull"
