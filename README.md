@@ -11,6 +11,12 @@ cd ~/RaspberryPi_KioskView
 ./run.sh
 ```
 
+Optional kannst du Gunicorn über Umgebungsvariablen anpassen:
+
+```bash
+GUNICORN_WORKERS=2 GUNICORN_THREADS=4 GUNICORN_TIMEOUT=60 ./run.sh
+```
+
 Optional kannst du beim Setup auch einen Branch auswählen:
 
 ```bash
@@ -35,8 +41,9 @@ sudo systemctl start kioskview.service
 ./kiosk-start.sh
 ```
 
-Hinweis: Die Setup-Skripte erkennen automatisch, ob auf deinem System das Paket
-`chromium-browser` oder `chromium` verfügbar ist.
+Hinweis: Die Setup-Skripte nutzen auf Raspberry Pi OS bevorzugt ein bereits
+installiertes `chromium`. Nur falls Chromium noch fehlt, wird ein installierbares
+Paket (`chromium`, alternativ `chromium-browser`) nachinstalliert.
 
 Für LXDE-Autostart:
 

@@ -14,17 +14,23 @@ fi
 sudo apt update
 
 CHROMIUM_PACKAGE=""
-if apt-cache show chromium-browser >/dev/null 2>&1; then
-  CHROMIUM_PACKAGE="chromium-browser"
-elif apt-cache show chromium >/dev/null 2>&1; then
+if command -v chromium >/dev/null 2>&1; then
+  echo "Chromium ist bereits installiert – Paketinstallation wird übersprungen."
+elif apt-cache policy chromium 2>/dev/null | awk '/Candidate:/ {print $2}' | grep -qv '(none)'; then
   CHROMIUM_PACKAGE="chromium"
+elif apt-cache policy chromium-browser 2>/dev/null | awk '/Candidate:/ {print $2}' | grep -qv '(none)'; then
+  CHROMIUM_PACKAGE="chromium-browser"
 else
-  echo "Fehler: Weder 'chromium-browser' noch 'chromium' ist als apt-Paket verfügbar."
+  echo "Fehler: Chromium ist nicht installiert und kein installierbares Paket gefunden ('chromium' oder 'chromium-browser')."
   echo "Bitte Chromium manuell installieren und das Setup erneut ausführen."
   exit 1
 fi
 
-sudo apt install -y git python3 python3-venv python3-pip "$CHROMIUM_PACKAGE"
+if [[ -n "$CHROMIUM_PACKAGE" ]]; then
+  sudo apt install -y git python3 python3-venv python3-pip "$CHROMIUM_PACKAGE"
+else
+  sudo apt install -y git python3 python3-venv python3-pip
+fi
 
 if [[ -d "$TARGET_DIR/.git" ]]; then
   echo "Repository bereits vorhanden"
