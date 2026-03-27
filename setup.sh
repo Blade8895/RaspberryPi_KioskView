@@ -36,7 +36,7 @@ if [[ -d "$TARGET_DIR/.git" ]]; then
   echo "Repository bereits vorhanden"
   if [[ -n "$BRANCH" ]]; then
     echo "Wechsle auf Branch '$BRANCH' und aktualisiere"
-    git -C "$TARGET_DIR" fetch --prune origin "refs/heads/$BRANCH:refs/remotes/origin/$BRANCH"
+    git -C "$TARGET_DIR" fetch --prune origin
 
     if ! git -C "$TARGET_DIR" show-ref --verify --quiet "refs/remotes/origin/$BRANCH"; then
       echo "Fehler: Remote-Branch '$BRANCH' wurde auf 'origin' nicht gefunden."
@@ -47,7 +47,8 @@ if [[ -d "$TARGET_DIR/.git" ]]; then
       git -C "$TARGET_DIR" checkout "$BRANCH"
       git -C "$TARGET_DIR" branch --set-upstream-to="origin/$BRANCH" "$BRANCH" >/dev/null 2>&1 || true
     else
-      git -C "$TARGET_DIR" checkout -b "$BRANCH" --track "origin/$BRANCH"
+      git -C "$TARGET_DIR" checkout -b "$BRANCH" "origin/$BRANCH"
+      git -C "$TARGET_DIR" branch --set-upstream-to="origin/$BRANCH" "$BRANCH"
     fi
     git -C "$TARGET_DIR" pull --ff-only origin "$BRANCH"
   else
