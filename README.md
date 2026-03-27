@@ -11,6 +11,12 @@ cd ~/RaspberryPi_KioskView
 ./run.sh
 ```
 
+Optional kannst du Gunicorn über Umgebungsvariablen anpassen:
+
+```bash
+GUNICORN_WORKERS=2 GUNICORN_THREADS=4 GUNICORN_TIMEOUT=60 ./run.sh
+```
+
 Optional kannst du beim Setup auch einen Branch auswählen:
 
 ```bash
