@@ -1,5 +1,6 @@
 import re
-from urllib.parse import unquote, urlparse
+import xml.etree.ElementTree as ET
+from urllib.parse import quote, unquote, urlparse
 
 import requests
 from bs4 import BeautifulSoup
@@ -15,7 +16,40 @@ class NextcloudService:
         m = re.search(r"/s/([^/?#]+)", share_link)
         return m.group(1) if m else None
 
+    def _list_xlsx_files_webdav(self, share_link: str):
+        token = self._extract_token(share_link)
+        if not token:
+            return []
+
+        p = urlparse(share_link)
+        base_url = f"{p.scheme}://{p.netloc}"
+        dav_url = f"{base_url}/public.php/dav/files/{token}/"
+
+        r = self.s.request("PROPFIND", dav_url, timeout=15, headers={"Depth": "1"}, auth=(token, ""))
+        r.raise_for_status()
+
+        files = set()
+        root = ET.fromstring(r.text)
+        ns = {"d": "DAV:"}
+        for response in root.findall("d:response", ns):
+            href_el = response.find("d:href", ns)
+            if href_el is None or not href_el.text:
+                continue
+            href = unquote(href_el.text)
+            name = href.rstrip("/").split("/")[-1]
+            if name.lower().endswith(".xlsx"):
+                files.add(name)
+
+        return sorted(files)
+
     def list_xlsx_files(self, share_link: str):
+        try:
+            files = self._list_xlsx_files_webdav(share_link)
+            if files:
+                return files
+        except Exception as exc:
+            self.logger.warning("WebDAV-Dateiliste konnte nicht geladen werden: %s", exc)
+
         files = set()
         try:
             r = self.s.get(share_link, timeout=15)
@@ -38,7 +72,8 @@ class NextcloudService:
         if not token:
             return None
         p = urlparse(share_link)
-        return f"{p.scheme}://{p.netloc}/s/{token}/download?path=%2F&files={filename}"
+        encoded = quote(filename)
+        return f"{p.scheme}://{p.netloc}/s/{token}/download?path=%2F&files={encoded}"
 
     def download_file(self, share_link: str, filename: str, target_path: str):
         url = self.build_download_url(share_link, filename)
